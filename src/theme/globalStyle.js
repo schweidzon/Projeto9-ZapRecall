@@ -36,6 +36,14 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
     background-color: #FB6B6B;
+  	width: 100vw;
+  	min-height: 100vh;
+  	display: flex;
+  	flex-direction: column;
+  	align-items: center;
+  	margin: 0px;
+  	padding: 0px;
+  	
 }
 ol, ul {
 	list-style: none;
