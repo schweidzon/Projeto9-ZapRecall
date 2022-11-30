@@ -2,13 +2,17 @@ import { useState } from "react"
 import styled from "styled-components"
 import turnAround from "../assets/images/turnAround.png"
 
-function Cards({ openedCards, setOpenedCards }) {
+function Cards({ openedCards, setOpenedCards, final, setFinal, cards }) {
 
 
     const [openCard, setOpenCard] = useState(false)
-    const [virarCarta, setVirarCarta] = useState(false)
+    const [corFinal, setCorFinal] = useState("white")
     const [turnCard, setTurnCard] = useState([])
-    const [final, setFinal] = useState([])
+
+    const [cor, setCor] = useState("")
+    const [indiceClicado, setindiceClicado] = useState([])
+    const [perguntaRespondidas, setPerguntasRespondidas] = useState([])
+    const [botao, setBotao] = useState('')
 
 
     function cardOpen(card) {
@@ -20,29 +24,74 @@ function Cards({ openedCards, setOpenedCards }) {
     function cardTurn(card) {
         const turnCards = [...turnCard, card.answer]
         setTurnCard(turnCards)
-        console.log(turnCards)
+
 
     }
 
-    function respostaFinal(card) {
-        console.log(card)
+
+
+    function respostaFinal(card, button, pergunta) {
+        const perguntas = [...perguntaRespondidas, pergunta]
+        setPerguntasRespondidas(perguntas)
+
+        const indice = [...indiceClicado, button]
+        setindiceClicado(indice)
+        const btn = button
+        setBotao(btn)
+        console.log(button)
+        //console.log(Object.values(perguntaRespondidas[0]).includes("Pergunta 1"))
+
+        //console.log(indice)
         const cartaFinal = [...final, card.question]
         setFinal(cartaFinal)
-        console.log(cartaFinal)     
+
+        if (button === "Não lembrei") {
+            setCorFinal("red")
+        } else if (button === "Quase não lembrei") {
+            setCorFinal('orange')
+        } else {
+            setCorFinal('green')
+        }
+
+
+
 
 
     }
 
-    const cards = [
-        { question: "O que é JSX?", answer: "Uma extensão da linguagem JavaScript" },
-        { question: "O React é __", answer: "Uma biblioteca JavaScript para construção de interfaces" },
-        { question: "Componentes devem iniciar com __", answer: "Letra maiúscula" },
-        { question: "Podemos colocar __ dentro do JSX", answer: "expressões" },
-        { question: "O ReactDOM nos ajuda __", answer: "Interagindo com a DOM para colocar componentes React na mesma" },
-        { question: "Usamos o npm para __", answer: "Gerenciar os pacotes necessários e suas dependências" },
-        { question: "Usamos props para __", answer: "Passar diferentes informações para componentes" },
-        { question: "Usamos estado (state) para __", answer: "Dizer para o React quais informações quando atualizadas devem renderizar a tela novamente" }
-    ]
+    // const obj = [{ pergunta: "Pergunta 1", botao: "Não lembrei" },
+    // { pergunta: "Pergunta 4", botao: "Quase não lembrei" },
+    // ]
+
+    //console.log(Object.values(obj[1]).includes("Pergunta 1"))
+
+
+
+
+
+    // const cards = [
+    //     { question: "O que é JSX?", answer: "Uma extensão da linguagem JavaScript" },
+    //     { question: "O React é __", answer: "Uma biblioteca JavaScript para construção de interfaces" },
+    //     { question: "Componentes devem iniciar com __", answer: "Letra maiúscula" },
+    //     { question: "Podemos colocar __ dentro do JSX", answer: "expressões" },
+    //     { question: "O ReactDOM nos ajuda __", answer: "Interagindo com a DOM para colocar componentes React na mesma" },
+    //     { question: "Usamos o npm para __", answer: "Gerenciar os pacotes necessários e suas dependências" },
+    //     { question: "Usamos props para __", answer: "Passar diferentes informações para componentes" },
+    //     { question: "Usamos estado (state) para __", answer: "Dizer para o React quais informações quando atualizadas devem renderizar a tela novamente" }
+    // ]
+
+
+
+
+
+
+
+
+
+    const buttons = ["Não lembrei", "Quase não lembrei", "Zap!"]
+
+
+
 
 
     return (
@@ -51,42 +100,85 @@ function Cards({ openedCards, setOpenedCards }) {
             <CardsContainer>
 
                 {cards.map((card, i) => {
-                    return (
-                        <>
-                            <QuestionCard open={openedCards.includes(card.question)}>
-                                <h2>Pergunta {i + 1}</h2>
-                                <ion-icon onClick={() => cardOpen(card)} name="play-outline"></ion-icon>
+                    if (!final.includes(card.question)) {
+                        return (
+                            <>
 
-                            </QuestionCard>
-                            <OpenCards
-                                open={openedCards.includes(card.question)}
-                                turn={turnCard.includes(card.answer)}
-                            >
-                                <h2>{card.question}</h2>
-                                <img src={turnAround} onClick={() => cardTurn(card)} />
+                                <QuestionCard open={openedCards.includes(card.question)}>
+                                    <h2>Pergunta {i + 1}</h2>
+                                    <ion-icon onClick={() => cardOpen(card)} name="play-outline"></ion-icon>
 
-                            </OpenCards>
-                            <TurnedCards
-                                turn={turnCard.includes(card.answer)}
+                                </QuestionCard>
+                                <OpenCards
+                                    open={openedCards.includes(card.question)}
+                                    turn={turnCard.includes(card.answer)}
+                                >
+                                    <h2>{card.question}</h2>
+                                    <img src={turnAround} onClick={() => cardTurn(card)} />
+
+                                </OpenCards>
+                                <TurnedCards
+                                    turn={turnCard.includes(card.answer)}
+                                    finish={final.includes(card.question)}
+                                >
+                                    {card.answer}
+                                    <Zapbuttop >
+                                        {buttons.map((button) => {
+                                            return (
+                                                <button onClick={(e) => respostaFinal(card, button, `${"Pergunta " + (i + 1)}`)} >{button}</button>
+                                            )
+                                        })}
+
+                                    </Zapbuttop>
+                                </TurnedCards>
+                                
+                               
+
+                            </>
+                        )
+
+                    } else {
+                        if(botao === "Não lembrei") {
+                            return (
+                                <FinalCard
                                 finish={final.includes(card.question)}
+                                resposta={perguntaRespondidas.includes(card.pergunta)}
+                                botao={"red"}
                             >
-                                {card.answer}
-                                <Zapbuttop>
-                                    <button onClick={() => respostaFinal(card)} >Não Lembrei</button>
-                                    <button onClick={() => respostaFinal(card)} >Quase não lembrei</button>
-                                    <button onClick={() => respostaFinal(card)} >Zap!</button>
-                                </Zapbuttop>
-                            </TurnedCards>
-                            <FinalCard
-
-                                finish={final.includes(card.question)}
-                            >
-                                <h2>Pergunta {i + 1}</h2>
+                                <h2>{card.pergunta}</h2>
                                 <ion-icon name="play-outline"></ion-icon>
                             </FinalCard>
+                            )
 
-                        </>
-                    )
+                        } else if (botao === "Quase não lembrei") {
+                            return (
+                                <FinalCard
+                                finish={final.includes(card.question)}
+                                resposta={perguntaRespondidas.includes(card.pergunta)}
+                                botao={"orange"}
+                            >
+                                <h2>{card.pergunta}</h2>
+                                <ion-icon name="play-outline"></ion-icon>
+                            </FinalCard>
+                            )
+
+                        } else {
+                            return (
+                                <FinalCard
+                                finish={final.includes(card.question)}
+                                resposta={perguntaRespondidas.includes(card.pergunta)}
+                                botao={"green"}
+                                
+                            >
+                                <h2>{card.pergunta}</h2>
+                                <ion-icon name="play-outline"></ion-icon>
+                            </FinalCard>
+                            )
+                        }
+                        
+                    }
+
+
 
                 })}
 
@@ -237,7 +329,7 @@ const Zapbuttop = styled.div`
 const FinalCard = styled.div`
     width: 300px;
     height: 60px;
-    background-color: red;
+    background-color: ${props => props.botao === "green" ? "green" : (props.botao ==="orange" ? "orange" : "red")};
     display: flex;
     justify-content: space-between;
     align-items: center;

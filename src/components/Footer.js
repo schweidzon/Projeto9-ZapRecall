@@ -1,10 +1,10 @@
 import styled from "styled-components"
 
-function Footer() {
+function Footer({final, setFinal, cards}) {
     return (
         <>
             <FooterStyle>
-                0/4 CONCLUÍDOS
+                {final.length}/{cards.length} CONCLUÍDOS
             </FooterStyle>
         </>
     )
