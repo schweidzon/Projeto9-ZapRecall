@@ -9,6 +9,7 @@ function App() {
   const [openedCards, setOpenedCards] = useState([])
   const [final, setFinal] = useState([])
   const [perguntasRespondidas, setPerguntasRespondidas] = useState(cards.map(() => {""}))
+  const [image, setImage] = useState([])
   
   return (
     <>
@@ -20,6 +21,8 @@ function App() {
         cards={cards}
         perguntasRespondidas={perguntasRespondidas}
         setPerguntasRespondidas={setPerguntasRespondidas}
+        image={image}
+        setImage={setImage}
         />
         <Footer
         final={final}
@@ -27,6 +30,8 @@ function App() {
         cards={cards}
         perguntasRespondidas={perguntasRespondidas}
         setPerguntasRespondidas={setPerguntasRespondidas}
+        image={image}
+        setImage={setImage}
         />
       
     </>

@@ -5,17 +5,13 @@ import CardsArray from "../CardsArray"
 import certo from "../assets/images/icone_certo.png"
 import quase from "../assets/images/icone_quase.png"
 import errado from "../assets/images/icone_erro.png"
-function Cards({ openedCards, setOpenedCards, final, setFinal, cards, perguntasRespondidas,setPerguntasRespondidas }) {
+function Cards({ openedCards, setOpenedCards, final, setFinal, cards, perguntasRespondidas, setPerguntasRespondidas, image, setImage }) {
 
-
+    const obj = {text: 'asd', num: 123}
+    console.log(Object.values(obj))
     const [turnCard, setTurnCard] = useState([])
-    
-   
     const [indiceClicado, setindiceClicado] = useState([])
-    
-    const [botao, setBotao] = useState('')
-    
-  
+
 
 
     function cardOpen(card) {
@@ -34,25 +30,32 @@ function Cards({ openedCards, setOpenedCards, final, setFinal, cards, perguntasR
 
 
     function respostaFinal(card, texto, pergunta, i) {
-        perguntasRespondidas[i] = {indice:i , texto:texto}
-        //perguntasRespondidas[i] = texto
+        perguntasRespondidas[i] = texto
         setPerguntasRespondidas(perguntasRespondidas)
-        console.log(perguntasRespondidas)
-        
-        
+
+        if (perguntasRespondidas[i] === "Não lembrei") {
+            const imagens = [...image, "errado"]
+ 
+            setImage(imagens)
+        } else if (perguntasRespondidas[i] === "Quase não lembrei") {
+            const imagens = [...image, 'quase']
+            setImage(imagens)
+        } else {
+            const imagens = [...image, 'certo']
+            setImage(imagens)
+
+        }
+
+        console.log(image)
 
         const indice = [...indiceClicado, texto]
         setindiceClicado(indice)
-        const btn = texto
-        setBotao(btn)
-        console.log(texto)
-        //console.log(Object.values(perguntasRespondidas[0]).includes("Pergunta 1"))
 
-        //console.log(indice)
+
         const cartaFinal = [...final, card.question]
         setFinal(cartaFinal)
 
-     
+
 
 
 
@@ -60,26 +63,6 @@ function Cards({ openedCards, setOpenedCards, final, setFinal, cards, perguntasR
 
     }
 
-    // const obj = [{ pergunta: "Pergunta 1", botao: "Não lembrei" },
-    // { pergunta: "Pergunta 4", botao: "Quase não lembrei" },
-    // ]
-
-    //console.log(Object.values(obj[1]).includes("Pergunta 1"))
-
-    
-
-
-
-    // const cards = [
-    //     { question: "O que é JSX?", answer: "Uma extensão da linguagem JavaScript" },
-    //     { question: "O React é __", answer: "Uma biblioteca JavaScript para construção de interfaces" },
-    //     { question: "Componentes devem iniciar com __", answer: "Letra maiúscula" },
-    //     { question: "Podemos colocar __ dentro do JSX", answer: "expressões" },
-    //     { question: "O ReactDOM nos ajuda __", answer: "Interagindo com a DOM para colocar componentes React na mesma" },
-    //     { question: "Usamos o npm para __", answer: "Gerenciar os pacotes necessários e suas dependências" },
-    //     { question: "Usamos props para __", answer: "Passar diferentes informações para componentes" },
-    //     { question: "Usamos estado (state) para __", answer: "Dizer para o React quais informações quando atualizadas devem renderizar a tela novamente" }
-    // ]
 
 
 
@@ -142,10 +125,10 @@ function Cards({ openedCards, setOpenedCards, final, setFinal, cards, perguntasR
                         return (
                             <FinalCard
                                 finish={final.includes(card.question)}
-                                resposta={perguntasRespondidas[i].texto}
+                                resposta={perguntasRespondidas[i]}
                             >
                                 <h2>{card.pergunta}</h2>
-                                <img src={perguntasRespondidas[i].texto === "Não lembrei" ? errado : (perguntasRespondidas[i].texto === "Quase não lembrei" ? quase : certo)}/>
+                                <img src={perguntasRespondidas[i] === "Não lembrei" ? errado : (perguntasRespondidas[i] === "Quase não lembrei" ? quase : certo)} />
                             </FinalCard>
                         )
 
@@ -172,6 +155,7 @@ const CardsContainer = styled.div`
     width: 300px;
     margin: auto;
     margin-top: 45px;
+    margin-bottom: 50px;
 `
 
 const QuestionCard = styled.div`
@@ -307,11 +291,11 @@ const FinalCard = styled.div`
     color: ${props => {
 
         if (props.resposta === "Não lembrei") {
-            return 'red'
+            return "#FF3030"
         } else if (props.resposta === 'Quase não lembrei') {
-            return 'orange'
+            return "#FF922E"
         } else {
-            return 'green'
+            return "#2FBE34"
         }
     }};
     text-decoration: line-through;
