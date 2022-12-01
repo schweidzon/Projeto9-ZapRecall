@@ -41,6 +41,7 @@ body {
   	display: flex;
   	flex-direction: column;
   	align-items: center;
+	justify-content: center;
   	margin: 0px;
   	padding: 0px;
 	padding-bottom: 200px;

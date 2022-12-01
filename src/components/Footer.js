@@ -5,10 +5,8 @@ import errado from "../assets/images/icone_erro.png"
 import parabens from "../assets/images/parabens.png"
 import putz from "../assets/images/putz.png"
 
-function Footer({ final, setFinal, cards, perguntasRespondidas, setPerguntasRespodindas, image, setImage }) {
+function Footer({ final, cards, answeredQuestions, image, }) {
 
-    //const respostas = perguntasRespondidas.map((item) => item.texto)
-    console.log(perguntasRespondidas)
     if (final.length < cards.length) {
         return (
             <>
@@ -20,7 +18,7 @@ function Footer({ final, setFinal, cards, perguntasRespondidas, setPerguntasResp
         )
 
     } else {
-        if (!perguntasRespondidas.includes("Não lembrei")) {
+        if (!answeredQuestions.includes("Não lembrei")) {
 
             return (
                 <FooterStyle>
@@ -28,10 +26,7 @@ function Footer({ final, setFinal, cards, perguntasRespondidas, setPerguntasResp
                         <img src={parabens} />
                         <p>Parabéns!</p>
                     </div>
-
                     <h1>Você não esqueceu de nenhum flashcard!</h1>
-
-
                     {final.length}/{cards.length} CONCLUÍDOS
                     <FooterBonus image={image}></FooterBonus>
                 </FooterStyle>
@@ -44,10 +39,7 @@ function Footer({ final, setFinal, cards, perguntasRespondidas, setPerguntasResp
                         <img src={putz} />
                         <p>Putz...!</p>
                     </div>
-
                     <h1>Ainda faltam alguns... Mas não desanime!</h1>
-
-
                     {final.length}/{cards.length} CONCLUÍDOS
                     <FooterBonus image={image}></FooterBonus>
                 </FooterStyle>
@@ -60,7 +52,6 @@ function Footer({ final, setFinal, cards, perguntasRespondidas, setPerguntasResp
 }
 
 function FooterBonus({ image }) {
-    console.log(image)
     return (
         <FooterBonusStyle>
             {image.map((image) => {

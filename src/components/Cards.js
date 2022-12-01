@@ -1,145 +1,96 @@
 import { useState } from "react"
 import styled from "styled-components"
 import turnAround from "../assets/images/turnAround.png"
-import CardsArray from "../CardsArray"
 import certo from "../assets/images/icone_certo.png"
 import quase from "../assets/images/icone_quase.png"
 import errado from "../assets/images/icone_erro.png"
-function Cards({ openedCards, setOpenedCards, final, setFinal, cards, perguntasRespondidas, setPerguntasRespondidas, image, setImage }) {
 
-    const obj = {text: 'asd', num: 123}
-    console.log(Object.values(obj))
+function Cards({ openedCards, setOpenedCards, final, setFinal, cards, answeredQuestions, setAnsweredQuestions, image, setImage, showCards }) {
+
     const [turnCard, setTurnCard] = useState([])
-    const [indiceClicado, setindiceClicado] = useState([])
 
-
+    const buttons = ["Não lembrei", "Quase não lembrei", "Zap!"]
 
     function cardOpen(card) {
         const cards = [...openedCards, card.question]
         setOpenedCards(cards)
-
     }
 
     function cardTurn(card) {
         const turnCards = [...turnCard, card.answer]
         setTurnCard(turnCards)
-
-
     }
 
+    function finalAnswer(card, texto, i) {
+        answeredQuestions[i] = texto
+        setAnsweredQuestions(answeredQuestions)
 
-
-    function respostaFinal(card, texto, pergunta, i) {
-        perguntasRespondidas[i] = texto
-        setPerguntasRespondidas(perguntasRespondidas)
-
-        if (perguntasRespondidas[i] === "Não lembrei") {
+        if (answeredQuestions[i] === "Não lembrei") {
             const imagens = [...image, "errado"]
- 
+
             setImage(imagens)
-        } else if (perguntasRespondidas[i] === "Quase não lembrei") {
+        } else if (answeredQuestions[i] === "Quase não lembrei") {
             const imagens = [...image, 'quase']
             setImage(imagens)
         } else {
             const imagens = [...image, 'certo']
             setImage(imagens)
-
         }
-
-        console.log(image)
-
-        const indice = [...indiceClicado, texto]
-        setindiceClicado(indice)
-
-
         const cartaFinal = [...final, card.question]
         setFinal(cartaFinal)
-
-
-
-
-
-
-
     }
-
-
-
-
-
-
-
-
-
-    const buttons = ["Não lembrei", "Quase não lembrei", "Zap!"]
 
 
 
 
 
     return (
-
         <>
-            <CardsContainer>
+            <CardsContainer show={showCards}>
 
                 {cards.map((card, i) => {
-                    if (!final.includes(card.question)) {
-                        return (
-                            <>
 
-                                <QuestionCard open={openedCards.includes(card.question)}>
-                                    <h2>Pergunta {i + 1}</h2>
-                                    <ion-icon onClick={() => cardOpen(card)} name="play-outline"></ion-icon>
+                    return (
+                        <>
+                            <QuestionCard open={openedCards.includes(card.question)}>
+                                <h2>Pergunta {i + 1}</h2>
+                                <ion-icon onClick={() => cardOpen(card)} name="play-outline"></ion-icon>
 
-                                </QuestionCard>
-                                <OpenCards
-                                    open={openedCards.includes(card.question)}
-                                    turn={turnCard.includes(card.answer)}
-                                >
-                                    <h2>{card.question}</h2>
-                                    <img src={turnAround} onClick={() => cardTurn(card)} />
+                            </QuestionCard>
+                            <OpenCards
+                                open={openedCards.includes(card.question)}
+                                turn={turnCard.includes(card.answer)}
+                            >
+                                <h2>{card.question}</h2>
+                                <img src={turnAround} onClick={() => cardTurn(card)} />
 
-                                </OpenCards>
-                                <TurnedCards
-                                    turn={turnCard.includes(card.answer)}
-                                    finish={final.includes(card.question)}
-                                >
-                                    {card.answer}
-                                    <Zapbuttop >
-                                        {buttons.map((button) => {
-                                            return (
-                                                <button onClick={(e) => respostaFinal(card, button, `${"Pergunta " + (i + 1)}`, i)} >{button}</button>
-                                            )
-                                        })}
+                            </OpenCards>
+                            <TurnedCards
+                                turn={turnCard.includes(card.answer)}
+                                finish={final.includes(card.question)}
+                            >
+                                {card.answer}
+                                <Zapbuttop >
+                                    {buttons.map((button) => {
+                                        return (
+                                            <button onClick={(e) => finalAnswer(card, button, i)} >{button}</button>
+                                        )
+                                    })}
 
-                                    </Zapbuttop>
-                                </TurnedCards>
-
-
-
-                            </>
-                        )
-
-                    } else {
-
-                        return (
+                                </Zapbuttop>
+                            </TurnedCards>
                             <FinalCard
                                 finish={final.includes(card.question)}
-                                resposta={perguntasRespondidas[i]}
+                                resposta={answeredQuestions[i]}
                             >
                                 <h2>{card.pergunta}</h2>
-                                <img src={perguntasRespondidas[i] === "Não lembrei" ? errado : (perguntasRespondidas[i] === "Quase não lembrei" ? quase : certo)} />
+                                <img src={answeredQuestions[i] === "Não lembrei" ? errado : (answeredQuestions[i] === "Quase não lembrei" ? quase : certo)} />
                             </FinalCard>
-                        )
-
-
-                    }
-
+                        </>
+                    )
 
 
                 })}
-
-
 
             </CardsContainer>
         </>
@@ -156,6 +107,7 @@ const CardsContainer = styled.div`
     margin: auto;
     margin-top: 45px;
     margin-bottom: 50px;
+    display: ${props => !props.show && 'none'};
 `
 
 const QuestionCard = styled.div`
