@@ -5,14 +5,14 @@ import errado from "../assets/images/icone_erro.png"
 import parabens from "../assets/images/parabens.png"
 import putz from "../assets/images/putz.png"
 
-function Footer({ final, cards, answeredQuestions, image, }) {
+function Footer({ final, cards, answeredQuestions, image, showCards }) {
 
     if (final.length < cards.length) {
         return (
             <>
-                <FooterStyle>
+                <FooterStyle show={showCards}>
                     {final.length}/{cards.length} CONCLUÍDOS
-                    <FooterBonus image={image}></FooterBonus>
+                    <FooterBonus image={image} showCards={showCards}></FooterBonus>
                 </FooterStyle>
             </>
         )
@@ -21,7 +21,7 @@ function Footer({ final, cards, answeredQuestions, image, }) {
         if (!answeredQuestions.includes("Não lembrei")) {
 
             return (
-                <FooterStyle>
+                <FooterStyle show={showCards}>
                     <div>
                         <img src={parabens} />
                         <p>Parabéns!</p>
@@ -34,7 +34,7 @@ function Footer({ final, cards, answeredQuestions, image, }) {
 
         } else {
             return (
-                <FooterStyle>
+                <FooterStyle show={showCards}>
                     <div>
                         <img src={putz} />
                         <p>Putz...!</p>
@@ -51,9 +51,9 @@ function Footer({ final, cards, answeredQuestions, image, }) {
 
 }
 
-function FooterBonus({ image }) {
+function FooterBonus({ image, showCards }) {
     return (
-        <FooterBonusStyle>
+        <FooterBonusStyle show={showCards}>
             {image.map((image) => {
                 if (image === "errado") {
                     return <img src={errado} />
@@ -64,11 +64,7 @@ function FooterBonus({ image }) {
                 }
             })}
         </FooterBonusStyle>
-
-
     )
-
-
 }
 
 
@@ -91,6 +87,7 @@ const FooterStyle = styled.div`
   font-size: 18px;
   color: #333333;
   padding: 10px;
+  display: ${props => !props.show && "none"};
     img:first-child {
         width: 23px;
     }
@@ -110,4 +107,6 @@ const FooterBonusStyle = styled.div`
 display: flex;
 gap: 5px;
 margin-top: 5px;
+display: ${props => !props.show && "none"};
+
 `

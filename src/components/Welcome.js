@@ -49,6 +49,10 @@ const WelcomePage = styled.div`
             font-style: normal;
             font-weight: 400;
             font-size: 18px;
+            cursor: pointer;
+             &:active {
+                box-shadow:rgba(50, 50, 93, 0.25) 0px 10px 30px -12px inset, rgba(0, 0, 0, 0.3) 0px 10px 30px -18px inset;
+             }
         }
 
 `

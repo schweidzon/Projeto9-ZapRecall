@@ -33,6 +33,7 @@ function App() {
         cards={cards}
         answeredQuestions={answeredQuestions}
         image={image}
+        showCards={showCards}
         />
     </>
 
