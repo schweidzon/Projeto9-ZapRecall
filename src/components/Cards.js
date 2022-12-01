@@ -1,18 +1,21 @@
 import { useState } from "react"
 import styled from "styled-components"
 import turnAround from "../assets/images/turnAround.png"
+import CardsArray from "../CardsArray"
+import certo from "../assets/images/icone_certo.png"
+import quase from "../assets/images/icone_quase.png"
+import errado from "../assets/images/icone_erro.png"
+function Cards({ openedCards, setOpenedCards, final, setFinal, cards, perguntasRespondidas,setPerguntasRespondidas }) {
 
-function Cards({ openedCards, setOpenedCards, final, setFinal, cards }) {
 
-
-    const [openCard, setOpenCard] = useState(false)
-    const [corFinal, setCorFinal] = useState("white")
     const [turnCard, setTurnCard] = useState([])
-
-    const [cor, setCor] = useState("")
+    
+   
     const [indiceClicado, setindiceClicado] = useState([])
-    const [perguntaRespondidas, setPerguntasRespondidas] = useState([])
+    
     const [botao, setBotao] = useState('')
+    
+  
 
 
     function cardOpen(card) {
@@ -30,28 +33,26 @@ function Cards({ openedCards, setOpenedCards, final, setFinal, cards }) {
 
 
 
-    function respostaFinal(card, button, pergunta) {
-        const perguntas = [...perguntaRespondidas, pergunta]
-        setPerguntasRespondidas(perguntas)
+    function respostaFinal(card, texto, pergunta, i) {
+        perguntasRespondidas[i] = {indice:i , texto:texto}
+        //perguntasRespondidas[i] = texto
+        setPerguntasRespondidas(perguntasRespondidas)
+        console.log(perguntasRespondidas)
+        
+        
 
-        const indice = [...indiceClicado, button]
+        const indice = [...indiceClicado, texto]
         setindiceClicado(indice)
-        const btn = button
+        const btn = texto
         setBotao(btn)
-        console.log(button)
-        //console.log(Object.values(perguntaRespondidas[0]).includes("Pergunta 1"))
+        console.log(texto)
+        //console.log(Object.values(perguntasRespondidas[0]).includes("Pergunta 1"))
 
         //console.log(indice)
         const cartaFinal = [...final, card.question]
         setFinal(cartaFinal)
 
-        if (button === "Não lembrei") {
-            setCorFinal("red")
-        } else if (button === "Quase não lembrei") {
-            setCorFinal('orange')
-        } else {
-            setCorFinal('green')
-        }
+     
 
 
 
@@ -65,7 +66,7 @@ function Cards({ openedCards, setOpenedCards, final, setFinal, cards }) {
 
     //console.log(Object.values(obj[1]).includes("Pergunta 1"))
 
-
+    
 
 
 
@@ -79,7 +80,6 @@ function Cards({ openedCards, setOpenedCards, final, setFinal, cards }) {
     //     { question: "Usamos props para __", answer: "Passar diferentes informações para componentes" },
     //     { question: "Usamos estado (state) para __", answer: "Dizer para o React quais informações quando atualizadas devem renderizar a tela novamente" }
     // ]
-
 
 
 
@@ -125,57 +125,31 @@ function Cards({ openedCards, setOpenedCards, final, setFinal, cards }) {
                                     <Zapbuttop >
                                         {buttons.map((button) => {
                                             return (
-                                                <button onClick={(e) => respostaFinal(card, button, `${"Pergunta " + (i + 1)}`)} >{button}</button>
+                                                <button onClick={(e) => respostaFinal(card, button, `${"Pergunta " + (i + 1)}`, i)} >{button}</button>
                                             )
                                         })}
 
                                     </Zapbuttop>
                                 </TurnedCards>
-                                
-                               
+
+
 
                             </>
                         )
 
                     } else {
-                        if(botao === "Não lembrei") {
-                            return (
-                                <FinalCard
-                                finish={final.includes(card.question)}
-                                resposta={perguntaRespondidas.includes(card.pergunta)}
-                                botao={"red"}
-                            >
-                                <h2>{card.pergunta}</h2>
-                                <ion-icon name="play-outline"></ion-icon>
-                            </FinalCard>
-                            )
 
-                        } else if (botao === "Quase não lembrei") {
-                            return (
-                                <FinalCard
+                        return (
+                            <FinalCard
                                 finish={final.includes(card.question)}
-                                resposta={perguntaRespondidas.includes(card.pergunta)}
-                                botao={"orange"}
+                                resposta={perguntasRespondidas[i].texto}
                             >
                                 <h2>{card.pergunta}</h2>
-                                <ion-icon name="play-outline"></ion-icon>
+                                <img src={perguntasRespondidas[i].texto === "Não lembrei" ? errado : (perguntasRespondidas[i].texto === "Quase não lembrei" ? quase : certo)}/>
                             </FinalCard>
-                            )
+                        )
 
-                        } else {
-                            return (
-                                <FinalCard
-                                finish={final.includes(card.question)}
-                                resposta={perguntaRespondidas.includes(card.pergunta)}
-                                botao={"green"}
-                                
-                            >
-                                <h2>{card.pergunta}</h2>
-                                <ion-icon name="play-outline"></ion-icon>
-                            </FinalCard>
-                            )
-                        }
-                        
+
                     }
 
 
@@ -329,7 +303,18 @@ const Zapbuttop = styled.div`
 const FinalCard = styled.div`
     width: 300px;
     height: 60px;
-    background-color: ${props => props.botao === "green" ? "green" : (props.botao ==="orange" ? "orange" : "red")};
+    background-color: white;
+    color: ${props => {
+
+        if (props.resposta === "Não lembrei") {
+            return 'red'
+        } else if (props.resposta === 'Quase não lembrei') {
+            return 'orange'
+        } else {
+            return 'green'
+        }
+    }};
+    text-decoration: line-through;
     display: flex;
     justify-content: space-between;
     align-items: center;

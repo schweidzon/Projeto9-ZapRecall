@@ -1,7 +1,8 @@
 import styled from "styled-components"
 
-function Footer({final, setFinal, cards}) {
+function Footer({final, setFinal, cards, perguntasRespondidas, setPerguntasRespodindas}) {
     return (
+        
         <>
             <FooterStyle>
                 {final.length}/{cards.length} CONCLUÍDOS
