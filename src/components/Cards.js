@@ -59,7 +59,7 @@ function Cards({ openedCards, setOpenedCards, final, setFinal, cards, answeredQu
                             <OpenCards
                                 open={openedCards.includes(card.question)}
                                 turn={turnCard.includes(card.answer)}
-                                data-test="flashcard"
+                                
                             >
                                 <h2 data-test="flashcard-text" >{card.question}</h2>
                                 <img data-test="turn-btn" src={turnAround} onClick={() => cardTurn(card)} />
@@ -68,7 +68,7 @@ function Cards({ openedCards, setOpenedCards, final, setFinal, cards, answeredQu
                             <TurnedCards
                                 turn={turnCard.includes(card.answer)}
                                 finish={final.includes(card.question)}
-                                data-test="flashcard"
+                                
                             >
                                 <h1 data-test="flashcard-text" >{card.answer}</h1>
                                 <Zapbuttop >
@@ -80,7 +80,7 @@ function Cards({ openedCards, setOpenedCards, final, setFinal, cards, answeredQu
                             <FinalCard
                                 finish={final.includes(card.question)}
                                 resposta={answeredQuestions[i]}
-                                data-test="flashcard"
+                                
                             >
                                 <h2 data-test="flashcard-text">{`Pergunta ${i + 1}`}</h2>
                                 <Image1 data-test="no-icon" display ={answeredQuestions[i]}  src={errado}/>
