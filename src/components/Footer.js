@@ -10,8 +10,9 @@ function Footer({ final, cards, answeredQuestions, image, showCards }) {
     if (final.length < cards.length) {
         return (
             <>
-                <FooterStyle show={showCards}>
-                    {final.length}/{cards.length} CONCLUÍDOS
+                <FooterStyle show={showCards} data-test="footer">
+                    {final.length}/{cards.length}
+                    CONCLUÍDOS
                     <FooterBonus image={image} showCards={showCards}></FooterBonus>
                 </FooterStyle>
             </>
@@ -22,11 +23,14 @@ function Footer({ final, cards, answeredQuestions, image, showCards }) {
 
             return (
                 <FooterStyle show={showCards}>
-                    <div>
-                        <img src={parabens} />
-                        <p>Parabéns!</p>
-                    </div>
-                    <h1>Você não esqueceu de nenhum flashcard!</h1>
+                    <footer data-test="finish-text">
+                        <div>
+                            <img src={parabens} />
+                            <p>Parabéns!</p>
+                        </div>
+                        <h1>Você não esqueceu de nenhum flashcard!</h1>
+                    </footer>
+
                     {final.length}/{cards.length} CONCLUÍDOS
                     <FooterBonus image={image}></FooterBonus>
                 </FooterStyle>
@@ -35,11 +39,14 @@ function Footer({ final, cards, answeredQuestions, image, showCards }) {
         } else {
             return (
                 <FooterStyle show={showCards}>
-                    <div>
-                        <img src={putz} />
-                        <p>Putz...!</p>
-                    </div>
-                    <h1>Ainda faltam alguns... Mas não desanime!</h1>
+                    <footer data-test="finish-text">
+                        <div>
+                            <img src={putz} />
+                            <p>Putz...</p>
+                        </div>
+                        <h1>Ainda faltam alguns... Mas não desanime!</h1>
+                    </footer>
+
                     {final.length}/{cards.length} CONCLUÍDOS
                     <FooterBonus image={image}></FooterBonus>
                 </FooterStyle>
@@ -56,11 +63,11 @@ function FooterBonus({ image, showCards }) {
         <FooterBonusStyle show={showCards}>
             {image.map((image) => {
                 if (image === "errado") {
-                    return <img src={errado} />
+                    return <img data-test="no-icon" src={errado} />
                 } else if (image === "quase") {
-                    return <img src={quase} />
+                    return <img data-test="partial-icon" src={quase} />
                 } else if (image === "certo") {
-                    return <img src={certo} />
+                    return <img data-test="partial-icon" src={certo} />
                 }
             })}
         </FooterBonusStyle>
@@ -100,13 +107,25 @@ const FooterStyle = styled.div`
         align-items: center;
         gap: 10px;
     }
+
+    footer {
+        width: 220px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+   
    
 `
 
 const FooterBonusStyle = styled.div`
 display: flex;
+justify-content: center;
+align-items: center;
+width: 100%;
 gap: 5px;
 margin-top: 5px;
-display: ${props => !props.show && "none"};
+
 
 `

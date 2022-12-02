@@ -9,7 +9,6 @@ function Cards({ openedCards, setOpenedCards, final, setFinal, cards, answeredQu
 
     const [turnCard, setTurnCard] = useState([])
 
-    const buttons = ["Não lembrei", "Quase não lembrei", "Zap!"]
 
     function cardOpen(card) {
         const cards = [...openedCards, card.question]
@@ -52,39 +51,41 @@ function Cards({ openedCards, setOpenedCards, final, setFinal, cards, answeredQu
 
                     return (
                         <>
-                            <QuestionCard open={openedCards.includes(card.question)}>
-                                <h2>Pergunta {i + 1}</h2>
-                                <ion-icon onClick={() => cardOpen(card)} name="play-outline"></ion-icon>
+                            <QuestionCard data-test="flashcard" open={openedCards.includes(card.question)}>
+                                <h2 data-test="flashcard-text">Pergunta {i + 1}</h2>
+                                <ion-icon data-test="play-btn" onClick={() => cardOpen(card)} name="play-outline"></ion-icon>
 
                             </QuestionCard>
                             <OpenCards
                                 open={openedCards.includes(card.question)}
                                 turn={turnCard.includes(card.answer)}
+                                data-test="flashcard"
                             >
-                                <h2>{card.question}</h2>
-                                <img src={turnAround} onClick={() => cardTurn(card)} />
+                                <h2 data-test="flashcard-text" >{card.question}</h2>
+                                <img data-test="turn-btn" src={turnAround} onClick={() => cardTurn(card)} />
 
                             </OpenCards>
                             <TurnedCards
                                 turn={turnCard.includes(card.answer)}
                                 finish={final.includes(card.question)}
+                                data-test="flashcard"
                             >
-                                {card.answer}
+                                <h1 data-test="flashcard-text" >{card.answer}</h1>
                                 <Zapbuttop >
-                                    {buttons.map((button) => {
-                                        return (
-                                            <button onClick={(e) => finalAnswer(card, button, i)} >{button}</button>
-                                        )
-                                    })}
-
+                                    <button data-test="no-btn" onClick={() => finalAnswer(card, "Não lembrei", i)}>Não lembrei</button>
+                                    <button data-test="partial-btn" onClick={() => finalAnswer(card, "Quase não lembrei", i)}>Quase não lembrei</button>
+                                    <button data-test="zap-btn" onClick={() => finalAnswer(card, "Zap!", i)}>Zap!</button>
                                 </Zapbuttop>
                             </TurnedCards>
                             <FinalCard
                                 finish={final.includes(card.question)}
                                 resposta={answeredQuestions[i]}
+                                data-test="flashcard"
                             >
-                                <h2>{card.pergunta}</h2>
-                                <img src={answeredQuestions[i] === "Não lembrei" ? errado : (answeredQuestions[i] === "Quase não lembrei" ? quase : certo)} />
+                                <h2 data-test="flashcard-text">{`Pergunta ${i + 1}`}</h2>
+                                <Image1 data-test="no-icon" display ={answeredQuestions[i]}  src={errado}/>
+                                <Image2 data-test="partial-icon" display ={answeredQuestions[i]} src={quase}  />
+                                <Image3 ata-test="zap-icon" display ={answeredQuestions[i]}  src={certo} />
                             </FinalCard>
                         </>
                     )
@@ -134,6 +135,7 @@ const QuestionCard = styled.div`
             font-size: 30px;
             cursor: pointer;
             --ionicon-stroke-width: 46px;
+           
         }
 `
 
@@ -168,6 +170,7 @@ const OpenCards = styled.div`
             right: 20px;
             bottom: 10px;
             cursor: pointer;
+            
         }
 `
 
@@ -221,6 +224,9 @@ const Zapbuttop = styled.div`
          padding:5px;
          cursor: pointer;
          border-style: none;
+         &:active {
+                box-shadow:rgba(50, 50, 93, 0.25) 0px 10px 30px -12px inset, rgba(0, 0, 0, 0.3) 0px 10px 30px -18px inset;
+             }
         
     }
     button:nth-of-type(1) {
@@ -267,9 +273,18 @@ const FinalCard = styled.div`
             font-size: 16px;
             line-height: 19px;
         }
-        ion-icon {
-            font-size: 30px;
-            cursor: pointer;
-            --ionicon-stroke-width: 46px;
-        }
+        
+`
+
+const Image1 = styled.img`
+display: ${props => props.display === "Não lembrei" ? '' : 'none'};
+
+`
+const Image2 = styled.img`
+display: ${props => props.display === "Quase não lembrei" ? '' : 'none'};
+
+`
+const Image3 = styled.img`
+display: ${props => props.display === "Zap!" ? '' : 'none'};
+
 `
