@@ -22,7 +22,7 @@ function Footer({ final, cards, answeredQuestions, image, showCards }) {
         if (!answeredQuestions.includes("Não lembrei")) {
 
             return (
-                <FooterStyle show={showCards}>
+                <FooterStyle show={showCards} data-test="footer">
                     <footer data-test="finish-text">
                         <div>
                             <img src={parabens} />
@@ -38,7 +38,7 @@ function Footer({ final, cards, answeredQuestions, image, showCards }) {
 
         } else {
             return (
-                <FooterStyle show={showCards}>
+                <FooterStyle show={showCards} data-test="footer"> 
                     <footer data-test="finish-text">
                         <div>
                             <img src={putz} />
@@ -67,7 +67,7 @@ function FooterBonus({ image, showCards }) {
                 } else if (image === "quase") {
                     return <img data-test="partial-icon" src={quase} />
                 } else if (image === "certo") {
-                    return <img data-test="partial-icon" src={certo} />
+                    return <img data-test="zap-icon" src={certo} />
                 }
             })}
         </FooterBonusStyle>

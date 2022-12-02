@@ -85,7 +85,7 @@ function Cards({ openedCards, setOpenedCards, final, setFinal, cards, answeredQu
                                 <h2 data-test="flashcard-text">{`Pergunta ${i + 1}`}</h2>
                                 <Image1 data-test="no-icon" display ={answeredQuestions[i]}  src={errado}/>
                                 <Image2 data-test="partial-icon" display ={answeredQuestions[i]} src={quase}  />
-                                <Image3 ata-test="zap-icon" display ={answeredQuestions[i]}  src={certo} />
+                                <Image3 data-test="zap-icon" display ={answeredQuestions[i]}  src={certo} />
                             </FinalCard>
                         </>
                     )
@@ -144,7 +144,7 @@ const QuestionCard = styled.div`
 const OpenCards = styled.div`
     width: 300px;
     height: 130px;
-    background-color: #FFFFFF;
+    background-color: #FFFFD5;
     box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.15);
     border-radius: 5px;
     padding-top: 18px;
