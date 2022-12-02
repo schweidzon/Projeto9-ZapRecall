@@ -10,7 +10,7 @@ function CardsPage({showCards}) {
 
     const [openedCards, setOpenedCards] = useState([])
     const [final, setFinal] = useState([])
-    const [answeredQuestions, setAnsweredQuestions] = useState(cards.map(() => [""]))
+    const [answeredQuestions, setAnsweredQuestions] = useState([])
     const [image, setImage] = useState([])
     
     return (
