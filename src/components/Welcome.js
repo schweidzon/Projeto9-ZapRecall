@@ -8,7 +8,7 @@ function Welcome({showCards, setShowCards}) {
         <WelcomePage show={showCards}>
             <img src={zapImage} />
             <h1>ZapRecall</h1>
-            <button onClick={ () => setShowCards(true)}>Iniciar Recal!!</button>
+            <button data-test="start-btn" onClick={ () => setShowCards(true)}>Iniciar Recal!!</button>
         </WelcomePage>
 
 
