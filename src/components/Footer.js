@@ -132,7 +132,4 @@ font-style: normal;
 font-weight: 400;
 font-size: 18px;
 color: #333333
-
-
-
 `
