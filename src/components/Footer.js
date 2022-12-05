@@ -94,6 +94,7 @@ const FooterStyle = styled.div`
   font-size: 18px;
   color: #333333;
   padding: 10px;
+  box-shadow: 0px -4px 6px rgba(0, 0, 0, 0.05);
   display: ${props => !props.show && "none"};
     img:first-child {
         width: 23px;
@@ -126,6 +127,12 @@ align-items: center;
 width: 100%;
 gap: 5px;
 margin-top: 5px;
+font-family: 'Recursive';
+font-style: normal;
+font-weight: 400;
+font-size: 18px;
+color: #333333
+
 
 
 `

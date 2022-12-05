@@ -23,6 +23,7 @@ function Cards({ openedCards, setOpenedCards, final, setFinal, cards, answeredQu
     function finalAnswer(card, texto, i) {
         answeredQuestions[i] = texto
         setAnsweredQuestions(answeredQuestions)
+        console.log(answeredQuestions)
 
         if (answeredQuestions[i] === "Não lembrei") {
             const imagens = [...image, "errado"]
@@ -208,7 +209,8 @@ const Zapbuttop = styled.div`
     margin-top: 22px;
     gap: 13px;
     button {
-         width: 90px;
+         width: 85px;
+         height: 37px;       
          font-family: 'Recursive';
          font-style: normal;
          font-weight: 400;
@@ -221,7 +223,7 @@ const Zapbuttop = styled.div`
          color: #FFFFFF;
          background: blue;
          border-radius: 5px;         
-         padding:5px;
+         padding:6px;
          cursor: pointer;
          border-style: none;
          &:active {
@@ -247,7 +249,6 @@ const FinalCard = styled.div`
     height: 60px;
     background-color: white;
     color: ${props => {
-
         if (props.resposta === "Não lembrei") {
             return "#FF3030"
         } else if (props.resposta === 'Quase não lembrei') {
